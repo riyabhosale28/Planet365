@@ -1,0 +1,85 @@
+<?php
+/*  
+session_start();
+include 'db.php';
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $email=$conn->real_escape_string($_POST['email']);
+    $pass=$_POST['password'];
+    $sql="SELECT * FROM users WHERE email='$email' LIMIT 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        
+        if (password_verify($pass, $row['password'])) {
+            $_SESSION['user_id'] = $row['userid'];
+            $_SESSION['user_name'] = $row['username'];
+            header("Location: welcome.php");
+            exit();
+        } else {
+            echo "<p style='color:red;'>Invalid password.";
+        }
+    } else {
+        echo "<p style='color:red;'>User not found.";
+    }
+}else{
+    header("Location: login.html");
+    exit();
+}
+*/
+?>
+
+<?php
+session_start();
+include 'db.php';
+
+$message = "";
+$type = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $conn->real_escape_string($_POST['email']);
+    $pass  = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($pass, $row['password'])) {
+            $_SESSION['user_id'] = $row['userid'];
+            $_SESSION['user_name'] = $row['username'];
+            header("Location: index.html");
+            exit();
+        } else {
+            $message = "Invalid password.";
+            $type = "error";
+        }
+    } else {
+        $message = "User not found.";
+        $type = "error";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="form-container">
+    <h2>Login to Planet365</h2>
+    <?php if($message != ""): ?>
+        <div class="message <?php echo $type; ?>"><?php echo $message; ?></div>
+    <?php endif; ?>
+    <form method="POST" action="">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <a class="link" href="register.html">Don't have an account? Register</a>
+</div>
+</body>
+</html>
