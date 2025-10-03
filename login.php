@@ -46,9 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         if (password_verify($pass, $row['password'])) {
-            $_SESSION['user_id'] = $row['userid'];
-            $_SESSION['user_name'] = $row['username'];
-            header("Location: index.html");
+             $_SESSION['userid'] = $row['userid'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['username'] = $row['username'];
+            header("Location: dashboard.php");
             exit();
         } else {
             $message = "Invalid password.";

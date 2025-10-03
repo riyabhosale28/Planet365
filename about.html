@@ -5,12 +5,29 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Planet365-about</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    a{
+       color: #2e7d32;
+    }
+  button {
+      background: #2e7d32;
+      color: white;
+      cursor: pointer;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #2e7d32;
+      margin-right: 5px;
+      
+  }
+   button:hover { background: #1b5e20; }
+  </style>
 </head>
 <body>
 <!--Navigation-->
 <header class="navbar">
   <div class="logo">
-     <h1>Planet365</h1>
+     <button><a href="index.html"><h1 >Planet365</h1></a></button>
   </div>
   <nav>
      <ul class="nav-links">
@@ -19,6 +36,11 @@
         <li><a href="services.html">Services</a></li>
         <li><a href="contact.html">Contact</a></li>
      </ul>
+     <ul class="nav-actions">
+                <li><a href="register.html" class="btn register-btn">Register</a></li>
+                 <li><a href="login.html" class="btn login-btn">Login</a></li>
+            <li><a href="logout.php" class="btn logout-btn">Logout</a></li>
+            </ul>
    </nav>
 </header>
 

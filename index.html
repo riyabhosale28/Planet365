@@ -5,25 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planet365</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+  #map { height: 400px; margin-top: 10px; border-radius: 12px; }
+  #results { margin-top: 10px; color: #333; }
+  .recycle-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+      width: 100%;
+      max-width: 700px;
+      margin: 20px auto;
+      text-align: left;
+  }
+  input, select, button {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #2e7d32;
+      margin-right: 5px;
+  }
+  button {
+      background: #2e7d32;
+      color: white;
+      cursor: pointer;
+      border: none;
+  }
+  button:hover { background: #1b5e20; }
+</style>
+
 </head>
 <body>
     <header class="navbar">
+   
         <div class="logo">
-            <h1>Planet365</h1>
-        </div>
+            <a href="index.html"><h1 >Planet365</h1></a>
+       </div>
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                  </ul>
-                  <ul class="nav-actions">
-                <li><a href="register.html" class="btn register-btn">Register</a></li>
-                 <li><a href="login.html" class="btn login-btn">Login</a></li>
-            <li><a href="logout.php" class="btn logout-btn">Logout</a></li>
+            </ul>
+            <ul class="nav-actions">
+               <li class="profile-dropdown">
+              <a href="#" class="profile-btn">Profile ⬇️</a>
+              <ul class="dropdown-menu">
+                  <li><a href="profile.php">View Profile</a></li>
+                  <li><a href="emissions.php">My Emissions</a></li>
+                  <li><a href="logout.php">Logout</a></li>
+              </ul>
+          </li>
+          <li><a href="register.html" class="btn register-btn">Register</a></li>
+          <li><a href="login.html" class="btn login-btn">Login</a></li> 
             </ul>
         </nav>
+      
+        
     </header>
  <!--Home section-->   
  <section id="home" class="hero">
@@ -35,6 +75,97 @@
     </div>
  </section>
 
+<div style="justify-content:center;" class="recycle-card">
+  <h2>Find Recycling Centers Near You ♻️</h2>
+  <input id="location" type="text" placeholder="Enter city or area">
+  <select id="material">
+    <option value="plastic">Plastic</option>
+    <option value="glass">Glass</option>
+    <option value="electronics">E-Waste</option>
+    <option value="paper">Paper</option>
+  </select>
+  <button onclick="findCenters()">Search</button>
+
+  <div id="map"></div>
+  <div id="results"></div>
+</div>
+<script>
+let map = L.map('map').setView([20.5937, 78.9629], 5); // Default: India
+
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+let markers = [];
+
+// Clear previous markers
+function clearMarkers() {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+}
+
+// Find recycling centers
+function findCenters() {
+    clearMarkers();
+    let location = document.getElementById("location").value;
+    let material = document.getElementById("material").value;
+
+    if (!location) return alert("Please enter a location");
+
+    // Geocode location using Nominatim (server-side PHP to avoid CORS)
+    fetch(`recycling_search.php?location=${encodeURIComponent(location)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                alert("Location not found!");
+                return;
+            }
+
+            let lat = data[0].lat;
+            let lon = data[0].lon;
+            map.setView([lat, lon], 13);
+
+            // Overpass API query for recycling centers (no strict material filter)
+            let query = `[out:json][timeout:25];
+                node["amenity"="recycling"](around:10000,${lat},${lon});
+                out;`;
+
+            fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
+                .then(res => res.json())
+                .then(result => {
+                    let elements = result.elements;
+                    let resultsHTML = "";
+
+                    if (elements.length === 0) {
+                        resultsHTML = "<p>No recycling centers found nearby.</p>";
+                    } else {
+                        elements.forEach(el => {
+                            let name = el.tags.name || "Recycling Center";
+                            let address = el.tags["addr:street"] ? el.tags["addr:street"] : "";
+                            if (el.tags["addr:city"]) address += ", " + el.tags["addr:city"];
+
+                            let marker = L.marker([el.lat, el.lon]).addTo(map)
+                                .bindPopup(`<b>${name}</b><br>${address}<br>Material: ${material}`);
+                            markers.push(marker);
+
+                            resultsHTML += `<p><b>${name}</b><br>${address}<br>Lat: ${el.lat}, Lon: ${el.lon}</p>`;
+                        });
+                    }
+
+                    document.getElementById("results").innerHTML = resultsHTML;
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error fetching recycling centers.");
+                });
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error geocoding location.");
+        });
+}
+</script>
 
  <!--Mission Section-->
  <section id="mission" class="section">
@@ -89,6 +220,7 @@
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br>
     <button type="submit">Join Us</button>
+    <a href="get_involved.html">get-involved</a>
 </form>
     </div>
 </section>

@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,12 +7,35 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Planet365-services</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    *{
+        justify-content: center;
+    }
+    a{
+       color: #2e7d32;
+      
+    }
+
+  button {
+      background: #2e7d32;
+      color: white;
+      cursor: pointer;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #2e7d32;
+      margin-right: 5px;
+      
+  }
+   button:hover { background: #1b5e20; }
+  </style>
+  
 </head>
 <body>
 <!--Navigation-->
 <header class="navbar">
   <div class="logo">
-     <h1>Planet365</h1>
+     <button><a href="index.html"><h1 >Planet365</h1></a></button>
   </div>
   <nav>
      <ul class="nav-links">
@@ -19,30 +44,123 @@
         <li><a href="services.html">Services</a></li>
         <li><a href="contact.html">Contact</a></li>
      </ul>
+      <ul class="nav-actions">
+                <li><a href="register.html" class="btn register-btn">Register</a></li>
+                 <li><a href="login.html" class="btn login-btn">Login</a></li>
+            <li><a href="logout.php" class="btn logout-btn">Logout</a></li>
+            </ul>
    </nav>
 </header>
 <!--services section-->
+
+
 
 <section id="services" class="section">
     <div class="container">
       <h2>Our Services</h2>
           <div class="service-cards">
-               <div class="card">
-                 <h3>Recycling Programs</h3>
+               <div class="card" >
+                 <h3>♻️ Recycling Programs</h3>
                  <p>Find local recycling programs and learn how to recycle properly.</p>
                 </div>
                 <div class="card">
-                   <h3>Educational Resources</h3>
+                   <h3>📚 Educational Resources</h3>
                    <p>Access articles,guides,and resources to educate yourself on environmental issues.</p>
                  </div>
                 <div class="card">
-                   <h3>Community Initiatives</h3>
+                   <h3>🌍 Community Initiatives</h3>
                    <p>Join local community initiatives to make a positive impact.</p>
                 </div>
             </div>
         </div>
 
 </section>
+
+
+<section id="how-to-recycle" class="section">
+  <div class="container">
+    <h2>How to Recycle</h2>
+
+    <div class="accordion">
+      <button class="accordion-btn">Paper</button>
+      <div class="panel">
+        <ul>
+          <li>Sort paper into cardboard, office paper, newspapers.</li>
+          <li>Remove staples, clips, and plastic covers.</li>
+          <li>Flatten boxes to save space.</li>
+        </ul>
+      </div>
+
+      <button class="accordion-btn">Plastic</button>
+      <div class="panel">
+        <ul>
+          <li>Check recycling symbols (PET, HDPE, etc.).</li>
+          <li>Rinse containers to remove food residue.</li>
+          <li>Avoid plastic bags unless drop-off bins are available.</li>
+        </ul>
+      </div>
+
+      <button class="accordion-btn">Glass</button>
+      <div class="panel">
+        <ul>
+          <li>Rinse jars and bottles.</li>
+          <li>Separate by color if required by local recycling rules.</li>
+        </ul>
+      </div>
+
+      <button class="accordion-btn">Electronics</button>
+      <div class="panel">
+        <ul>
+          <li>Do not throw electronics in trash.</li>
+          <li>Take old phones, laptops, and batteries to e-waste centers.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+const accBtns = document.querySelectorAll(".accordion-btn");
+accBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+    const panel = btn.nextElementSibling;
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  });
+});
+
+
+
+
+</script>
+
+<style>
+.accordion-btn {
+  background: #2e7d32;
+  color: white;
+  cursor: pointer;
+  padding: 12px;
+  width: 50%;
+  border: none;
+  text-align: left;
+  outline: none;
+  margin-top: 5px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+.accordion-btn.active { background: #1b5e20; }
+.panel { display: none; padding: 10px 20px; background: #a5d6a7; border-radius: 6px; margin-bottom: 5px; }
+.panel ul { margin: 0; padding-left: 20px; }
+</style>
+<div class="container">
+<h1 style="margin-left: 300px;">Want to know your daily carbon emission?</h1>
+<button style="background: #2e7d32; color: white; cursor:pointer; border:none; padding:6px; border-radius:10px; margin-right:5px; margin-bottom: 20px;margin-left: 450px;">
+<a href="carbonCalculator.php"  ><i><h3 style="color:white;margin-right: 10px;margin-left: 10px;">🌍 Calculate your carbon footprint</h3></i></a>
+</button>
+</div>
+
+
 <section id="RRR" class="section">
 <div class="container">
 
@@ -95,6 +213,8 @@
      
 </div>
 </section>
+
+
 <marquee behavior="scroll" direction="right" scrollamount="10">
             <img src="reduce.jpg" alt="Image 1" width="400" height="300"></marquee>
 <!--footer-->
