@@ -6,16 +6,22 @@ if(!isset($_SESSION['username'])){
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
-$footprint = $data['footprint'] ?? 0;
-
 $username = $_SESSION['username'];
+$travel = $data['travel'] ?? 0;
+$electricity = $data['electricity'] ?? 0;
+$water = $data['water'] ?? 0;
+$diet = $data['diet'] ?? 'veg';
+$footprint = $data['footprint'] ?? 0;
 
 // Connect to DB
 $conn = new mysqli("localhost","root","","planet365");
 if($conn->connect_error) die("Connection failed: ".$conn->connect_error);
 
-$stmt = $conn->prepare("INSERT INTO user_footprints (username, footprint, created_at) VALUES (?, ?, NOW())");
-$stmt->bind_param("sd", $username, $footprint);
+$stmt = $conn->prepare("INSERT INTO user_footprints (username,travel, electricity, water, diet,  footprint) VALUES (?, ?, ?, ?, ?, ? )");
+if(!$stmt){
+    die("Prepare failed: ".$conn->error);
+}
+$stmt->bind_param("sdddsd", $username, $travel, $electricity, $water, $diet,$footprint );
 if($stmt->execute()){
     echo "Footprint saved successfully!";
 } else {
@@ -24,3 +30,5 @@ if($stmt->execute()){
 $stmt->close();
 $conn->close();
 ?>
+
+

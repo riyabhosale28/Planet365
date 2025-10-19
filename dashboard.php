@@ -26,7 +26,7 @@ $icon = $weatherData['weather'][0]['icon'] ?? '';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Planet365 - Dashboard</title>
+  <title>🌱Planet365 - Dashboard</title>
   
   <style>
     body {
@@ -137,8 +137,9 @@ $icon = $weatherData['weather'][0]['icon'] ?? '';
   </style>
 </head>
 <body>
-
+ 
   <div class="navbar">
+   
      <a href="profile.php">👤 Profile</a> | 
       <a href="logout.php">🚪 Logout</a>
 

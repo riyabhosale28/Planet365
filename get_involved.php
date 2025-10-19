@@ -74,7 +74,7 @@ $mail = new PHPMailer(true);
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Get Involved - Planet365</title>
+<title>🌱Get Involved - Planet365</title>
 <style>
     body { font-family: Arial, sans-serif; background: #e8f5e9; text-align: center; padding: 50px; }
     input, textarea { padding: 10px; width: 300px; margin: 10px 0; border-radius: 6px; border: 1px solid #2e7d32; }

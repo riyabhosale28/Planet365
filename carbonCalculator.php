@@ -1,15 +1,14 @@
 <?php
 session_start();
 $loggedIn = isset($_SESSION['username']); // true if user logged in
+$username = $loggedIn ? $_SESSION['username'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planet365 Services</title>
-
-
+<title>🌱Planet365 Services</title>
 </head>
 <body>
 <button style="align-item:left;padding:12px; background:#2e7d32; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; transition:0.3s;"><a style="text-decoratio:none;color:white;" href="index.html">go back to home</a></button>
@@ -46,6 +45,7 @@ $loggedIn = isset($_SESSION['username']); // true if user logged in
 
 <script>
 const loggedIn = <?php echo $loggedIn ? 'true' : 'false'; ?>;
+const username = "<?php echo $username; ?>";
 
 function calculateFootprint() {
     let travel = parseFloat(document.getElementById("travel").value) || 0;
@@ -91,7 +91,7 @@ function calculateFootprint() {
         fetch('save_footprint.php', {
             method: 'POST',
             headers: { 'Content-Type':'application/json' },
-            body: JSON.stringify({ footprint: total.toFixed(2) })
+            body: JSON.stringify({ username, travel, electricity, water, diet, footprint: total.toFixed(2) } )
         }).then(res=>res.text())
           .then(data => console.log(data));
     } else {
