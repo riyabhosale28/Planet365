@@ -2,21 +2,27 @@
 <?php
  
 session_start();
+
 if(!isset($_SESSION['email'])){
     header("Location: login.html");
     exit();
 }
 $username = $_SESSION['username']; 
 $defaultCity = "Mumbai"; 
-$city = isset($_GET['city']) ? $_GET['city'] : $defaultCity;
+$city = isset($_GET['city']) ?urlencode($_GET['city']) :urlencode( $defaultCity);
 $apiKey = "298e46cc1d3f208bc3a54e0abbb152dd"; 
 $apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$apiKey";
-
-
-$weatherData = json_decode(file_get_contents($apiUrl), true);
+$response = @file_get_contents($apiUrl);
+if($response!==false){
+$weatherData = json_decode($response, true);
 $temperature = $weatherData['main']['temp'] ?? 'N/A';
 $description = $weatherData['weather'][0]['description'] ?? '';
 $icon = $weatherData['weather'][0]['icon'] ?? '';
+}else{
+  $temperature = 'N/A';
+    $description = 'Weather data unavailable';
+    $icon = '';
+}
 ?>
 
 

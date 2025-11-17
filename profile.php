@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['change_password'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>🌱Profile - Planet365</title>
 <style>
     body { font-family: 'Arial', sans-serif; background:#e8f5e9; margin:0; padding:20px; }
@@ -122,6 +123,55 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['change_password'])) {
         </tfoot>
     </table>
 </section>
+
+<style>
+    .xp-card {
+    background: #ffffff;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.points-display {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2e7d32; /* nice green color */
+    margin-bottom: 10px;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+}
+
+.level-hint {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+</style>
+
+
+<div class="xp-card">
+    <?php
+    require_once "db.php";
+$userId=$_SESSION['userid'];
+$stmt=$conn->prepare("Select points from users where userid=?");
+$stmt->bind_param("i",$userId);
+$stmt->execute();
+$stmt->bind_result($points);
+$stmt->fetch();
+$stmt->close();
+?>
+    <h3>Your Points</h3>
+    <div class="points-display"><?=htmlspecialchars($points)?>XP</div>
+    <progress value="<?=(int)$points ?>" max="1000"></progress>
+    <p class="level-hint">Next reward at 1000 XP</p>
+</div>
+
 
 <div class="container">
     <div class="card">

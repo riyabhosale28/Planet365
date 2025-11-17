@@ -1,4 +1,5 @@
 <?php
+/*
 
 
 session_start();
@@ -6,7 +7,7 @@ include 'db.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'phpmailer/src/Exception.php';
+require 'phpmailerCsrc/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 $success="";
@@ -100,6 +101,51 @@ $mail = new PHPMailer(true);
 
 </body>
 </html>
+*/
+?>
+
+
+<!-- Make sure you have a header include, otherwise just start with <!DOCTYPE html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Involved - Planet365</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container" style="max-width:600px; margin:auto; padding:20px;">
+    <h2>Get Involved with Planet365 🌍</h2>
+    <form action="save_involved.php" method="POST" autocomplete="off">
+        <div class="mb-3">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="message">Message / How you'd like to contribute:</label>
+            <textarea id="message" name="message" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Submit</button>
+    </form>
+</div>
+</body>
+</html>
+
+
 
        
         
